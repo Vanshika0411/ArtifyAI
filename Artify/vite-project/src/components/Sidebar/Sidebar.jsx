@@ -1,0 +1,106 @@
+import { Box, Button, Flex, Image, Link, Tooltip } from '@chakra-ui/react';
+import React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
+import { BiLogOut } from "react-icons/bi";
+import './Sidebar.css';
+import useLogout from '../../hooks/useLogOut';
+import SidebarItems from './SidebarItems';
+
+const Sidebar = () => {
+  const { handleLogout, isLoggingOut } = useLogout();
+
+  return (
+    <Box
+      className='sidebarbuxa'
+      height={"100vh"}
+      maxHeight={"100vh"}
+      borderRight={"1px solid"}
+      borderColor={"whiteAlpha.300"}
+      py={8}
+      position={"sticky"}
+      top={0}
+      left={0}
+      px={{ base: 2, md: 4 }}
+      overflowY={"auto"}  // Enables scrolling
+      bg={"rgba(0, 0, 0, 0.8)"} // Semi-transparent dark background
+      backgroundImage={"url('/public/image-10.png')"} // Change this to your image path
+      backgroundSize={"cover"}
+      backgroundPosition={"center"}
+      color={"white"}
+      css={{
+        "&::-webkit-scrollbar": {
+          width: "1px"
+        },
+        "&::-webkit-scrollbar-thumb": {
+          background: "gray",
+          borderRadius: "10px"
+        },
+        "&::-webkit-scrollbar-track": {
+          background: "transparent"
+        }
+      }}
+    >
+      <Flex direction={"column"} gap={6} w="full" height={"full"}>
+        {/* Logo */}
+        <Link to={"/"} as={RouterLink} pl={0.5}
+          display={{ base: "none", md: "block" }}
+          borderRadius={6}
+          _hover={{ bg: "whiteAlpha.200" }}
+          cursor={"pointer"}>
+          <Image src='/public/image-6.png' h={100} />
+        </Link>
+        <Link to={"/"} as={RouterLink} p={2}
+          display={{ base: "block", md: "none" }}
+          cursor={"pointer"}
+        >
+          <Image src='/public/image-6.png' />
+        </Link>
+
+        {/* Sidebar Items */}
+        <Flex direction={"column"} gap={5} cursor={"pointer"}>
+          <SidebarItems />
+          {/* AI Generator Link */}
+          <Link to={"/generate"} as={RouterLink} p={2}
+            display={{ base: "block", md: "block" }}
+            cursor={"pointer"}
+            borderRadius={6}
+            _hover={{ bg: "whiteAlpha.200" }}
+          >
+      
+          </Link>
+        </Flex>
+
+        {/* Logout Button */}
+        <Tooltip
+          hasArrow
+          label={"Logout"}
+          placement="right"
+          ml={1}
+          openDelay={500}
+          display={{ base: 'block', md: 'none' }}
+        >
+          <Flex
+            onClick={handleLogout}
+            alignItems={"center"}
+            _hover={{ bg: "whiteAlpha.200" }}
+            gap={4}
+            borderRadius={6}
+            p={2}
+            w={{ base: "10", md: "full" }}
+            mt={"auto"}
+            justifyContent={{ base: "center", md: "flex-start" }}
+          >
+            <BiLogOut size={25} />
+            <Button display={{ base: "none", md: "block" }}
+              variant={"ghost"}
+              _hover={{ bg: "transparent" }}
+              isLoading={isLoggingOut}
+            >Logout</Button>
+          </Flex>
+        </Tooltip>
+      </Flex>
+    </Box>
+  );
+};
+
+export default Sidebar;
